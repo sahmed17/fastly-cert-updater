@@ -1,0 +1,28 @@
+# Official docker image.
+image: docker:latest
+
+stages:
+  - build
+#   - deploy
+
+services:
+  - docker:stable-dind
+
+build:
+  stage: build
+  image: golang:latest
+  script:
+    - mkdir build
+    - go get "github.com/fastly/go-fastly/fastly"
+    - go build
+    - mv fastly-cert-updater build/update-cert
+  artifacts:
+    paths:
+      - ./build
+
+# deploy:
+#   stage: deploy
+#   script:
+#   only:
+#     - master
+
